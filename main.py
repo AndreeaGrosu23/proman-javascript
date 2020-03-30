@@ -14,7 +14,6 @@ def index():
     """
     This is a one-pager which shows all the boards and cards
     """
-    # return render_template('index.html')
     if 'username' in session:
         user = escape(session['username'])
         message = 'Logged in as ' + user
@@ -32,20 +31,17 @@ def registration():
                 'password': persistence.hash_password(request.form['password'])
             }
             persistence.add_user(form_data)
-            return redirect(url_for('login'))
-        return render_template('registration.html')
-    return render_template('registration.html')
+            return redirect(url_for('index'))
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        input_pass = request.form['password']
-        db_pass = persistence.login(request.form['username'])
+        input_pass = request.form['password_login']
+        db_pass = persistence.login(request.form['username_login'])
         if persistence.verify_password(input_pass, db_pass['password']):
-            session['username'] = request.form['username']
+            session['username'] = request.form['username_login']
             return redirect(url_for('index'))
-        return render_template('login.html')
-    return render_template('login.html')
 
 
 @app.route('/logout')

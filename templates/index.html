@@ -16,33 +16,83 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
               integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
               crossorigin="anonymous">
-{#        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"#}
-{#                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"#}
-{#                crossorigin="anonymous"></script>#}
 
 
-        <script type="module" src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+
+
     </head>
 
     <body>
 
-        <ul class="nav nav-pills">
-            <li class="nav-item">
-                <a class="nav-link active" href="{{  url_for('registration') }}">Registration</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{  url_for('login') }}">Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{  url_for('logout') }}">Logout</a>
-            </li>
-        </ul>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <h1>ProMan</h1>
+                    <div class="nav-item">{{message}}</div>
+                    <button class="button"> + New Board </button>
+
+                </div>
+
+                <div class="nav">
+                    <div class="nav-item">
+                        <button type="button" id="modal-btn-register" class="button">Sign Up</button>
+                            <div id="my-modal-register" class="modal">
+                                <div class="modal-header">
+                                    <h2>Register</h2>
+                                    <span class="close-register">&times;</span>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/registration" method="post" >
+                                        <label for="username">Username:</label>
+                                        <p><input type=text name=username id=username>
+                                        <p><label for="password">Password:</label>
+                                        <p><input type=password name=password id=password>
+                                        <p><label for="password">Confirm Password:</label>
+                                        <p><input type=password name=password2 id=password2>
+                                        <p><input type=submit value=Register>
+                                    </form>
+                                </div>
+                            </div>
+                    </div>
+
+                    <div class="nav-item">
+                        <button type="button" id="modal-btn-login" class="button">Login</button>
+                            <div id="my-modal-login" class="modal">
+                                <div class="modal-header">
+                                    <h2>Login</h2>
+                                    <span class="close-login">&times;</span>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/login" method="post" >
+                                        <label for="username">Username:</label>
+                                        <p><input type=text name=username_login id=username_login>
+                                        <p><label for="password">Password:</label>
+                                        <p><input type=password name=password_login id=password_login>
+                                        <p><input type=submit value=Login>
+                                    </form>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="nav-item">
+                        <button type="button" id="modal-btn-logout" class="button">Log out</button>
+                    </div>
 
 
-        <h1>ProMan</h1>
-        <h6 class="login_message">{{ message }}</h6>
+                </div>
+
+            </div>
+        </nav>
 
         <div class="containers" id="boards"></div>
+
+
+
+{#    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"#}
+{#                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"#}
+{#                crossorigin="anonymous"></script>#}
+
+    <script type="module" src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+
     </body>
 
 </html>
