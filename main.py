@@ -1,17 +1,54 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, session, request, redirect, escape
 from util import json_response
 
 import data_handler
+import persistence
+import os
 
 app = Flask(__name__)
 
+app.secret_key= os.urandom(24)
 
 @app.route("/")
 def index():
     """
     This is a one-pager which shows all the boards and cards
     """
-    return render_template('index.html')
+    if 'username' in session:
+        user = escape(session['username'])
+        message = 'Logged in as ' + user
+        return render_template('index.html', message = message)
+    message = 'Not logged in'
+    return render_template('index.html', message = message)
+
+
+@app.route('/registration', methods=['GET', 'POST'])
+def registration():
+    if request.method == 'POST':
+        if request.form['password'] == request.form['password2']:
+            form_data = {
+                'username': request.form['username'],
+                'password': persistence.hash_password(request.form['password'])
+            }
+            persistence.add_user(form_data)
+            return redirect(url_for('index'))
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        input_pass = request.form['password_login']
+        db_pass = persistence.login(request.form['username_login'])
+        if persistence.verify_password(input_pass, db_pass['password']):
+            session['username'] = request.form['username_login']
+            return redirect(url_for('index'))
+
+
+@app.route('/logout')
+def logout():
+    #remove username from session
+    session.pop('username', None)
+    return redirect(url_for('index'))
 
 
 @app.route("/get-boards")
@@ -20,7 +57,10 @@ def get_boards():
     """
     All the boards
     """
-    return data_handler.get_boards()
+    # if 'username' in session:
+    #     user = escape(session['username']
+    #     return persistence.get_user_boards(user)
+    return persistence.get_public_boards()
 
 
 @app.route("/get-cards/<int:board_id>")
