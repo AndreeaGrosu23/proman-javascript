@@ -19,12 +19,11 @@ export let dom = {
 
         for (let board of boards) {
             boardList += `
-                <div>
-                <p>             
-                    <div id="board-title" data-board-id = "${board.id}" data-board-title="${board.title}">${board.title}</div>
-                    <button type="button" class="btn btn-dark mr-1 rounded border-secondary" id="buttonNewCardForBoard${board.id}">Add Card</button>
-                </p>
-                    </div>
+            <section class="board">
+                <div class="board-header"><span class="board-title">${board.title}</span>
+                    <button class="btn btn-dark" id="buttonNewCardForBoard${board.id}">Add Card</button>            
+                </div>
+            </section>
             `;
         }
 
@@ -38,9 +37,9 @@ export let dom = {
         boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
 
         const boardButtons = document.getElementsByTagName('button');
-        for (let button of boardButtons){
-            if (button.id.slice(0,21) === 'buttonNewCardForBoard'){
-                button.addEventListener('click', dom.createNewCard );
+        for (let button of boardButtons) {
+            if (button.id.slice(0, 21) === 'buttonNewCardForBoard') {
+                button.addEventListener('click', dom.createNewCard);
             }
         }
 
@@ -59,7 +58,7 @@ export let dom = {
         let cardTitle = 'New Card';
         let boardId = event.target.id.slice(21);
         let statusId = 0;
-        dataHandler.createNewCard(cardTitle,boardId,statusId)
+        dataHandler.createNewCard(cardTitle, boardId, statusId)
     }
 
 };
