@@ -106,6 +106,15 @@ def add_user(cursor, data):
         data['password']))
 
 
+@database_common.connection_handler
+def add_card(cursor, card_title, board_id, status_id):
+    cursor.execute(f'''
+        INSERT INTO cards (board_id, title, status_id, or_order)
+        VALUES ('{board_id}', '{card_title}', '{status_id}','0');
+''')
+    result = card_title + " Successful add to board " + board_id
+    return result
+
 
 # import csv
 #
