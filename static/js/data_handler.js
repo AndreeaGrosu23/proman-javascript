@@ -25,7 +25,8 @@ export let dataHandler = {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
-        })
+        }).then((response) => response.json())
+            .then(json_response => callback(json_response))
             .catch((error) => {
                 console.error('Error:', error);
             });
@@ -63,7 +64,9 @@ export let dataHandler = {
     createNewCard: function (cardTitle, boardId, statusId, callback) {
         // creates new card, saves it and calls the callback function with its data
         let data = {cardTitle, boardId, statusId};
-        this._api_post('/add-card', data)
+        this._api_post('/add-card', data, (response) => {
+            callback(response);
+        });
     }
     // here comes more features
 };

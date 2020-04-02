@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, session, request, redirect, escape
+from flask import Flask, render_template, url_for, session, request, redirect, escape, jsonify
 from util import json_response
 
 import data_handler
@@ -79,7 +79,8 @@ def add_card():
         card_title = request.json['cardTitle']
         board_id = request.json['boardId']
         status_id = request.json['statusId']
-        persistence.add_card(card_title,board_id,status_id)
+        result = persistence.add_card(card_title,board_id,status_id)
+        return jsonify(result)
     return redirect(url_for('index'))
 
 

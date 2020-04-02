@@ -58,7 +58,12 @@ export let dom = {
         let cardTitle = 'New Card';
         let boardId = event.target.id.slice(21);
         let statusId = 0;
-        dataHandler.createNewCard(cardTitle, boardId, statusId)
+        dataHandler.createNewCard(cardTitle, boardId, statusId, dom.alertWeb)
+    },
+    alertWeb: function (message) {
+        alert(message);
+        window.location.reload();
+
     }
 
 };

@@ -112,7 +112,8 @@ def add_card(cursor, card_title, board_id, status_id):
         INSERT INTO cards (board_id, title, status_id, or_order)
         VALUES ('{board_id}', '{card_title}', '{status_id}','0');
 ''')
-
+    result = card_title + " Successful add to board " + board_id
+    return result
 
 
 # import csv
