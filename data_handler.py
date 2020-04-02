@@ -38,6 +38,3 @@ def get_cards_for_board(board_id):
 
 
 
-
-
-

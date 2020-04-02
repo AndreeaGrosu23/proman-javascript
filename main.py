@@ -1,4 +1,6 @@
+
 from flask import Flask, render_template, url_for, session, request, redirect, escape, jsonify
+
 from util import json_response
 
 import data_handler
