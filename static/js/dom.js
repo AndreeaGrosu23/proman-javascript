@@ -1,5 +1,5 @@
 // It uses data_handler.js to visualize elements
-import { dataHandler } from "./data_handler.js";
+import {dataHandler} from "./data_handler.js";
 
 export let dom = {
     init: function () {
@@ -7,7 +7,7 @@ export let dom = {
     },
     loadBoards: function () {
         // retrieves boards and makes showBoards called
-        dataHandler.getBoards(function(boards){
+        dataHandler.getBoards(function (boards) {
             dom.showBoards(boards);
         });
     },
@@ -17,9 +17,13 @@ export let dom = {
 
         let boardList = '';
 
-        for(let board of boards){
+        for (let board of boards) {
             boardList += `
-                <li>${board.title}</li>
+            <section class="board">
+                <div class="board-header"><span class="board-title">${board.title}</span>
+                    <button class="btn btn-dark" id="buttonNewCardForBoard${board.id}">Add Card</button>            
+                </div>
+            </section>
             `;
         }
 
@@ -31,6 +35,15 @@ export let dom = {
 
         let boardsContainer = document.querySelector('#boards');
         boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
+
+        const boardButtons = document.getElementsByTagName('button');
+        for (let button of boardButtons) {
+            if (button.id.slice(0, 21) === 'buttonNewCardForBoard') {
+                button.addEventListener('click', dom.createNewCard);
+            }
+        }
+
+
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
@@ -40,4 +53,17 @@ export let dom = {
         // it adds necessary event listeners also
     },
     // here comes more features
+    createNewCard: function (event) {
+        // console.log(event);
+        let cardTitle = 'New Card';
+        let boardId = event.target.id.slice(21);
+        let statusId = 0;
+        dataHandler.createNewCard(cardTitle, boardId, statusId, dom.alertWeb)
+    },
+    alertWeb: function (message) {
+        alert(message);
+        window.location.reload();
+
+    }
+
 };

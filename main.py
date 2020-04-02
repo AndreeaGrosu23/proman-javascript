@@ -1,4 +1,6 @@
-from flask import Flask, render_template, url_for, session, request, redirect, escape
+
+from flask import Flask, render_template, url_for, session, request, redirect, escape, jsonify
+
 from util import json_response
 
 import data_handler
@@ -71,6 +73,18 @@ def get_cards_for_board(board_id: int):
     :param board_id: id of the parent board
     """
     return data_handler.get_cards_for_board(board_id)
+
+
+@app.route("/add-card", methods=['POST'])
+def add_card():
+    if request.method == 'POST':
+        card_title = request.json['cardTitle']
+        board_id = request.json['boardId']
+        status_id = request.json['statusId']
+        result = persistence.add_card(card_title,board_id,status_id)
+        return jsonify(result)
+    return redirect(url_for('index'))
+
 
 
 def main():
